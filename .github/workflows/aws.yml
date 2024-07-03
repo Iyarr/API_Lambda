@@ -26,5 +26,6 @@ jobs:
 
       - name: Deploy to S3
         run: |
+          rm -r .git .github .gitignore
           zip -r source.zip .
           aws s3 cp ./ s3://${{ secrets.AWS_S3_BUCKET_NAME }} --recursive
