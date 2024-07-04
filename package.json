@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -r dist/* && node build.js",
+    "build": "node build.js",
     "clean": "tsc --build --clean"
   },
   "author": "",
@@ -16,6 +16,7 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "date-fns": "^3.6.0"
+    "date-fns": "^3.6.0",
+    "firebase-admin": "^12.2.0"
   }
 }
