@@ -22,7 +22,7 @@ const main = (): void => {
   };
   axios(config)
     .then((response) => {
-      testValidateHeader(response.data.token);
+      testValidateHeader(response.data.idToken);
     })
     .catch((error) => {
       console.error("エラー:", error.response.data.error.message);
