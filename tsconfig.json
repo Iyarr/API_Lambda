@@ -8,8 +8,9 @@
     "sourceMap": false,
     "target": "es2020",
     "module": "NodeNext",
-    "outDir": "dist"
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
-  "include": ["src/**/*.ts", "src/build.js"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
