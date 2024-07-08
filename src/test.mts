@@ -35,5 +35,4 @@ const testValidateHeader = (token: string): void => {
   });
 };
 
-//main();
-console.log("Hello, world!");
+main();
