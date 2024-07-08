@@ -1,8 +1,8 @@
 import { getAuth } from "firebase-admin/auth";
-import { createApp } from "./app.js";
+import { createApp } from "./app.mjs";
 
 export const validateHeader = (headers: { [name: string]: string }) => {
-if (!headers.authorization) {
+  if (!headers.authorization) {
     throw new Error("Authorization header is missing");
   }
   const token = headers.authorization.split(" ")[1];

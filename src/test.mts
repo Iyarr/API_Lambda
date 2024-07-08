@@ -1,4 +1,4 @@
-import { validateHeader } from "./auth.js";
+import { validateHeader } from "./auth.mjs";
 import axios, { AxiosRequestConfig } from "axios";
 
 const main = (): void => {

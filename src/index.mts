@@ -1,5 +1,10 @@
-import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from "aws-lambda";
-import { validateHeader } from "./auth.js";
+import {
+  APIGatewayProxyEvent,
+  Context,
+  APIGatewayProxyResult,
+  APIGatewayProxyEventHeaders,
+} from "aws-lambda";
+import { validateHeader } from "./auth.mjs";
 
 export const handler = async (
   event: APIGatewayProxyEvent,
@@ -7,7 +12,8 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   return new Promise((resolve, reject) => {
     try {
-      validateHeader(event.headers);
+      const headers: APIGatewayProxyEventHeaders = event.headers;
+      validateHeader(headers);
       resolve({
         statusCode: 200,
         headers: {
