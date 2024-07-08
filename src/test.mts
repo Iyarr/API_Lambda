@@ -1,5 +1,5 @@
 import { validateHeader } from "./auth.mjs";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 const main = (): void => {
   const user_email = process.env.user_email;
@@ -21,11 +21,11 @@ const main = (): void => {
     },
   };
   axios(config)
-    .then((response) => {
+    .then((response: AxiosResponse) => {
       testValidateHeader(response.data.idToken);
     })
-    .catch((error) => {
-      console.error("エラー:", error.response.data.error.message);
+    .catch((error: AxiosError) => {
+      console.error("エラー:", error.response.data);
     });
 };
 
