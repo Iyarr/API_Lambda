@@ -6,7 +6,10 @@ const main = (): void => {
   const user_password = process.env.user_password;
   const api_key = process.env.api_key;
   const config: AxiosRequestConfig = {
-    baseURL: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${api_key}`,
+    url: "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword",
+    params: {
+      key: api_key,
+    },
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -32,4 +35,5 @@ const testValidateHeader = (token: string): void => {
   });
 };
 
-main();
+//main();
+console.log("Hello, world!");
