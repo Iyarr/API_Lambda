@@ -1,38 +1,53 @@
-import { validateHeader } from "./auth.mjs";
+import dotenv from "dotenv";
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import { testverifyToken, testHasAuthenticationHeader } from "./auth.mjs";
 
-const main = (): void => {
-  const user_email = process.env.user_email;
-  const user_password = process.env.user_password;
-  const api_key = process.env.api_key;
-  const config: AxiosRequestConfig = {
+function main(): void {
+  // テスト用のトークンを取得
+  const token = requistIdToken();
+
+  try {
+    testHasAuthenticationHeader(token);
+  } catch (error) {
+    console.error("hasAuthenticationHeader Error:", error);
+  }
+
+  try {
+    testverifyToken(token);
+  } catch (error) {
+    console.error("verifyToken Error:", error);
+  }
+}
+
+function requistIdToken(): string {
+  axios(setAxiosConfig())
+    .then((response: AxiosResponse) => {
+      return response.data.idToken as string;
+    })
+    .catch((error: AxiosError) => {
+      console.error("Error:", error);
+    });
+  return "";
+}
+
+function setAxiosConfig(): AxiosRequestConfig {
+  dotenv.config();
+  const config = {
     url: "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword",
     params: {
-      key: api_key,
+      key: process.env.api_key,
     },
     method: "post",
     headers: {
       "Content-Type": "application/json",
     },
     data: {
-      email: user_email,
-      password: user_password,
+      email: process.env.user_email,
+      password: process.env.user_password,
       returnSecureToken: true,
     },
   };
-  axios(config)
-    .then((response: AxiosResponse) => {
-      testValidateHeader(response.data.idToken);
-    })
-    .catch((error: AxiosError) => {
-      console.error("エラー:", error.response.data);
-    });
-};
-
-const testValidateHeader = (token: string): void => {
-  validateHeader({
-    Authorization: `Bearer ${token}`,
-  });
-};
+  return config;
+}
 
 main();
