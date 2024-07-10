@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsx src/test.ts",
     "build": "node build.js",
     "clean": "tsc --build --clean"
   },
@@ -13,9 +13,13 @@
     "@aws-sdk/client-dynamodb": "^3.602.0",
     "@types/aws-lambda": "^8.10.140",
     "esbuild": "^0.23.0",
+    "tsx": "^4.16.2",
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "date-fns": "^3.6.0"
+    "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
+    "firebase-admin": "^12.2.0"
   }
 }

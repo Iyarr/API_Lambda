@@ -1,27 +1,35 @@
-import {
-  APIGatewayProxyEvent,
-  Context,
-  APIGatewayProxyResult,
-} from "aws-lambda";
+import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from "aws-lambda";
+import { hasAuthenticationHeader, verifyToken, checkAuthenticationHeaderFormat } from "./auth.js";
 
-import { format } from "date-fns";
+export const handler = async (event: APIGatewayProxyEvent, context: Context) => {
+  return verifyAuthenticationHeader(event);
+};
 
-export const handler = async (
-  event: APIGatewayProxyEvent,
-  context: Context
-): Promise<APIGatewayProxyResult> => {
-  return new Promise((resolve, reject) => {
-    resolve({
-      statusCode: 200,
+export const verifyAuthenticationHeader = async (event: APIGatewayProxyEvent) => {
+  const headers = event.headers;
+  try {
+    hasAuthenticationHeader(headers);
+    checkAuthenticationHeaderFormat(headers.Authorization);
+    await verifyToken(headers.Authorization.split(" ")[1]);
+  } catch (error) {
+    return {
+      statusCode: 401,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: "OK",
-        event: event,
-        date: format(new Date(), "yyyy-MM-dd"),
+        message: error.message,
       }),
-    });
-    return;
-  });
+    } as APIGatewayProxyResult;
+  }
+
+  return {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: "OK",
+    }),
+  } as APIGatewayProxyResult;
 };
