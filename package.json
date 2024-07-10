@@ -2,9 +2,11 @@
   "name": "app",
   "version": "1.0.0",
   "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "test": "tsx src/test.ts",
-    "build": "node build.js",
+    "test:prod": "node dist/test.js",
+    "build": "tsx build.ts",
     "clean": "tsc --build --clean"
   },
   "author": "",
