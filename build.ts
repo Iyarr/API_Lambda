@@ -7,8 +7,8 @@ const entryPoints = () => {
 };
 
 await esbuild.build({
-  bundle: true,
   entryPoints: entryPoints(),
+  outExtension: { ".js": ".mjs" },
   outdir: "dist",
   platform: "node",
   format: "esm",
