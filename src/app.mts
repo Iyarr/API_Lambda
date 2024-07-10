@@ -6,7 +6,7 @@ export const createApp = () => {
   return initializeApp({
     credential: cert({
       projectId: process.env.project_id,
-      privateKey: process.env.private_key.replaceAll(/\\n/g, "\n"),
+      privateKey: process.env.private_key.replaceAll("\\n", "\n"),
       clientEmail: process.env.client_email,
     }),
   });
