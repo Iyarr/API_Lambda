@@ -24,6 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+      - run: npm run test:prod
         env:
           project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
           private_key: ${{ secrets.FIREBASE_PRIVATE_KEY }}
