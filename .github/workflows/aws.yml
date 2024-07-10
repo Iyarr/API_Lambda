@@ -33,5 +33,5 @@ jobs:
           rm -r .git .github .gitignore
           zip -r source.zip .
           if [ ${{ github.ref }} = "refs/heads/master"]; then
-            aws s3 cp source.zip s3://${{ secrets.AWS_S3_OBJECT_DESTINATION }} --recursive
+            aws s3 cp source.zip s3://${{ secrets.AWS_S3_OBJECT_DESTINATION }}
           fi
