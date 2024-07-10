@@ -1,16 +1,16 @@
 import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from "aws-lambda";
-import { hasAuthenticationHeader, verifyToken, checkAuthenticationHeaderFormat } from "./auth.mjs";
+import { hasAuthenticationHeader, verifyToken, checkAuthenticationHeaderFormat } from "./auth.js";
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context) => {
   return verifyAuthenticationHeader(event);
 };
 
-const verifyAuthenticationHeader = async (event: APIGatewayProxyEvent) => {
+export const verifyAuthenticationHeader = async (event: APIGatewayProxyEvent) => {
   const headers = event.headers;
   try {
     hasAuthenticationHeader(headers);
-    const token = checkAuthenticationHeaderFormat(headers.Authorization);
-    await verifyToken(token);
+    checkAuthenticationHeaderFormat(headers.Authorization);
+    await verifyToken(headers.Authorization.split(" ")[1]);
   } catch (error) {
     return {
       statusCode: 401,

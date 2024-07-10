@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "tsx src/test.mts",
+    "test": "tsx src/test.ts",
     "build": "node build.js",
     "clean": "tsc --build --clean"
   },
