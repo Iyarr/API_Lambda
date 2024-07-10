@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from "aws-lambda";
-import { hasAuthenticationHeader, verifyToken, checkAuthenticationHeaderFormat } from "./auth.js";
+import { hasAuthenticationHeader, verifyToken, checkAuthenticationHeaderFormat } from "./auth.mjs";
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context) => {
   return verifyAuthenticationHeader(event);

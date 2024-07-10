@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { verifyToken, hasAuthenticationHeader } from "./auth.js";
+import { verifyToken, hasAuthenticationHeader } from "./auth.mjs";
 
 function main(): void {
   // テスト用のトークンを取得
