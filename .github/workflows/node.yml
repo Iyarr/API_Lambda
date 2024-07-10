@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     env:
-      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-      FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-      FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
-      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-      TEST_EMAIL: ${{ vars.TEST_EMAIL }}
-      TEST_PASSWORD: ${{ vars.TEST_PASSWORD }}
+      project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+      private_key: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+      client_email: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+      api_key: ${{ secrets.FIREBASE_API_KEY }}
+      user_email: ${{ vars.TEST_EMAIL }}
+      user_password: ${{ vars.TEST_PASSWORD }}
 
     steps:
       - name: Checkout repository
