@@ -8,26 +8,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: development
-
-    strategy:
-      matrix:
-        node-version: [20.x]
+    env:
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+      FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      TEST_EMAIL: ${{ vars.TEST_EMAIL }}
+      TEST_PASSWORD: ${{ vars.TEST_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20.x
           cache: "npm"
 
-      - run: npm install
+      - run: npm ci
       - run: npm test
-      - run: npm run build && npm run test:prod
-        env:
-          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
-          private_key: ${{ secrets.FIREBASE_PRIVATE_KEY }}
-          client_email: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
-          api_key: ${{ secrets.FIREBASE_API_KEY }}
-          user_email: ${{ vars.TEST_EMAIL }}
-          user_password: ${{ vars.TEST_PASSWORD }}
+      - run: npm run build
+      - run: npm run test:prod
