@@ -4,7 +4,7 @@
   "type": "module",
   "main": "dist/index.mjs",
   "scripts": {
-    "test": "tsx src/test.ts",
+    "test": "tsx src/test.mts",
     "test:prod": "node dist/test.mjs",
     "build": "tsx build.ts",
     "clean": "tsc --build --clean"
