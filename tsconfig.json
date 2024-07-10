@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
+    // these options are read by esbuild
+    "isolatedModules": true,
     // these options are not read by esbuild
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "noImplicitAny": false,
     "noEmitOnError": true,
     "removeComments": false,
     "sourceMap": false,
     "target": "es2022",
-    "module": "NodeNext",
+    "module": "es2022",
     "rootDir": "./src",
     "outDir": "./dist"
   },

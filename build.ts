@@ -10,10 +10,6 @@ await esbuild.build({
   bundle: true,
   entryPoints: entryPoints(),
   outdir: "dist",
-  outExtension: {
-    ".js": ".mjs",
-  },
   platform: "node",
-  target: "esnext",
   format: "esm",
 });
