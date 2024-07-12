@@ -4,17 +4,17 @@ import dotenv from "dotenv";
 export const createApp = () => {
   dotenv.config();
   if (
-    process.env.project_id == null ||
-    process.env.private_key == null ||
-    process.env.client_email == null
+    process.env.FIREBASE_PROJECT_ID == null ||
+    process.env.FIREBASE_PRIVATE_KEY == null ||
+    process.env.FIREBASE_CLIENT_EMAIL == null
   ) {
     throw Error("Environment variable is missing");
   }
   return initializeApp({
     credential: cert({
-      projectId: process.env.project_id,
-      privateKey: process.env.private_key.replaceAll("\\n", "\n"),
-      clientEmail: process.env.client_email,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replaceAll("\\n", "\n"),
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     }),
   });
 };
