@@ -12,66 +12,59 @@ function main(): void {
       console.log("Test End");
     })
     .catch(() => {
-      console.log("Test Failed");
+      console.error("Test Failed");
     });
 }
 
 async function test() {
+  await unitTest();
+  hasAuthenticationHeaderErrorTest();
+}
+
+async function unitTest() {
   const token = await requistTokenForTestAccount();
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  AssessTestSuccessResult(hasAuthenticationHeader(headers), "hasAuthenticationHeader");
-  AssessTestSuccessResult(verifyToken(token), "verifyToken");
+  AssessFunctionTest(() => {
+    hasAuthenticationHeader(headers);
+  }, "hasAuthenticationHeader");
+  AssessFunctionTest(() => {
+    verifyToken(token);
+  }, "verifyToken");
 }
 
-function AssessTestSuccessResult(testFunction: Promise<void> | void, TestFunctionName: string) {
-  if (testFunction instanceof Promise) {
-    testFunction
-      .then(() => {
-        console.log(`${TestFunctionName}: Success!!`);
-      })
-      .catch((error) => {
-        console.log(`${TestFunctionName}: Failed ${error}`);
-      });
-  } else {
+function hasAuthenticationHeaderErrorTest() {
+  console.log("hasAuthenticationHeaderErrorTest Start!!");
+  [
+    {
+      headers: undefined,
+      expectedError: "Authorization header is missing",
+    },
+    {
+      headers: {},
+      expectedError: "Authorization header is missing",
+    },
+  ].forEach((invalidRequest) => {
     try {
-      testFunction;
-      console.log(`${TestFunctionName}: Success!!`);
+      hasAuthenticationHeader(invalidRequest.headers);
     } catch (error) {
-      console.log(`${TestFunctionName}: Failed ${error}`);
-    }
-  }
-}
-
-function AssessTestErrorResult(
-  testFunction: Promise<void> | void,
-  TestFunctionName: string,
-  expectedError: string
-) {
-  if (testFunction instanceof Promise) {
-    testFunction
-      .then(() => {
-        console.log(`${TestFunctionName} : False negative!!`);
-      })
-      .catch((error) => {
-        if (error.message === expectedError) {
-          console.log(`${TestFunctionName} : Error success!!`);
-        } else {
-          console.log(`${TestFunctionName} : Error code incorrected!!`);
-        }
-      });
-  } else {
-    try {
-      testFunction;
-      console.log(`${TestFunctionName}: False negative!!`);
-    } catch (error) {
-      if (error.message === expectedError) {
-        console.log(`${TestFunctionName} : Error success!!`);
+      if (error.message === invalidRequest.expectedError) {
+        console.log(`hasAuthenticationHeader : Error success!!`);
       } else {
-        console.log(`${TestFunctionName} : Error code incorrected!!`);
+        console.log(`hasAuthenticationHeader : Error code incorrected!!`);
+        console.log(error.message);
       }
     }
+  });
+}
+
+function AssessFunctionTest(testFunction: () => void, TestFunctionName: string) {
+  try {
+    testFunction;
+    console.log(`${TestFunctionName}: Success!!`);
+  } catch (error) {
+    console.log(`${TestFunctionName}: Failed ${error}`);
   }
 }
 
