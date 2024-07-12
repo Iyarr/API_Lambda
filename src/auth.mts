@@ -3,7 +3,7 @@ import { getAuth } from "firebase-admin/auth";
 import { createApp } from "./app.mjs";
 
 export const hasAuthenticationHeader = (headers: APIGatewayProxyEventHeaders) => {
-  if (typeof headers !== "object" || "Authorization" in headers === false) {
+  if (headers === undefined || "Authorization" in headers === false) {
     throw new Error("Authorization header is missing");
   }
 };
