@@ -10,7 +10,7 @@ export const verifyAuthenticationHeader = async (event: APIGatewayProxyEvent) =>
   try {
     hasAuthenticationHeader(headers);
     checkAuthenticationHeaderFormat(headers.Authorization);
-    await verifyToken(headers.Authorization.split(" ")[1]);
+    verifyToken(headers.Authorization.split(" ")[1]);
   } catch (error) {
     return {
       statusCode: 401,
