@@ -1,16 +1,31 @@
 import { APIGatewayProxyEvent, Context, APIGatewayProxyResult } from "aws-lambda";
-import { hasAuthenticationHeader, verifyToken, checkAuthenticationHeaderFormat } from "./auth.mjs";
+import { hasAuthorizationHeader, verifyToken, checkAuthorizationHeaderFormat } from "./auth.mjs";
+import { Firebase } from "./app.mjs";
+
+const firebase = new Firebase();
 
 export const handler = async (event: APIGatewayProxyEvent, context: Context) => {
-  return verifyAuthenticationHeader(event);
+  return verifyAuthorizationHeader(event);
 };
 
-export const verifyAuthenticationHeader = async (event: APIGatewayProxyEvent) => {
+export const verifyAuthorizationHeader = async (event: APIGatewayProxyEvent) => {
   const headers = event.headers;
   try {
-    hasAuthenticationHeader(headers);
-    checkAuthenticationHeaderFormat(headers.Authorization);
-    verifyToken(headers.Authorization.split(" ")[1]);
+    hasAuthorizationHeader(headers);
+    checkAuthorizationHeaderFormat(headers.Authorization);
+    return {
+      statusCode: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: await verifyToken(
+          headers.Authorization.split(" ")[1],
+          firebase.getAuth(),
+          firebase.getProjectId()
+        ),
+      }),
+    } as APIGatewayProxyResult;
   } catch (error) {
     return {
       statusCode: 401,
@@ -22,14 +37,4 @@ export const verifyAuthenticationHeader = async (event: APIGatewayProxyEvent) =>
       }),
     } as APIGatewayProxyResult;
   }
-
-  return {
-    statusCode: 200,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      message: "OK",
-    }),
-  } as APIGatewayProxyResult;
 };
