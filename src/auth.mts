@@ -14,10 +14,14 @@ export const checkAuthorizationHeaderFormat = (header: string) => {
 };
 
 export const verifyToken = async (token: string, auth: Auth, projectId: string) => {
-  const decodedIdToken = await auth.verifyIdToken(token);
-  /*
-  if (decodedIdToken.aud !== projectId) {
-    throw Error("Token is invalid");
-  }*/
-  return await auth.verifyIdToken(token);
+  await auth
+    .verifyIdToken(token)
+    .then((decodedToken) => {
+      if (decodedToken.aud !== projectId) {
+        throw Error("Token is invalid");
+      }
+    })
+    .catch((error) => {
+      throw Error("Token is invalid");
+    });
 };
