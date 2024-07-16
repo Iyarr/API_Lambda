@@ -13,17 +13,18 @@ export const verifyAuthorizationHeader = async (event: APIGatewayProxyEvent) => 
   try {
     hasAuthorizationHeader(headers);
     checkAuthorizationHeaderFormat(headers.Authorization);
+    await verifyToken(
+      headers.Authorization.split(" ")[1],
+      firebase.getAuth(),
+      firebase.getProjectId()
+    );
     return {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        message: await verifyToken(
-          headers.Authorization.split(" ")[1],
-          firebase.getAuth(),
-          firebase.getProjectId()
-        ),
+        message: "Success!",
       }),
     } as APIGatewayProxyResult;
   } catch (error) {
