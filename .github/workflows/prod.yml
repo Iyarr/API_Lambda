@@ -27,10 +27,13 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: npm run
+
+      - name: Move files
+        run: mv dist/*.mjs .
 
       - name: Create zip file
-        run: zip -r source.zip dist/* node_modules/
+        run: zip -r source.zip *.mjs node_modules/
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
